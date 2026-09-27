@@ -8,7 +8,8 @@ module.exports = [
                 require: "readonly",
                 module: "readonly",
                 __dirname: "readonly",
-                console: "readonly"
+                console: "readonly",
+                document: "readonly"
             }
         },
         rules: {
