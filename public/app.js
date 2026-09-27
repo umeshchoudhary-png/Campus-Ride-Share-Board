@@ -1,6 +1,7 @@
 const form = document.getElementById("ride-form");
 const rideList = document.getElementById("ride-list");
 const searchInput = document.getElementById("search");
+const clearSearchButton = document.getElementById("clear-search");
 
 let rides = JSON.parse(localStorage.getItem("rides")) || [];
 
@@ -63,6 +64,11 @@ form.addEventListener("submit", (event) => {
 
 searchInput.addEventListener("input", () => {
     displayRides(searchInput.value);
+});
+
+clearSearchButton.addEventListener("click", () => {
+    searchInput.value = "";
+    displayRides();
 });
 
 displayRides();
