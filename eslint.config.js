@@ -7,6 +7,7 @@ module.exports = [
             globals: {
                 require: "readonly",
                 module: "readonly",
+                __dirname: "readonly",
                 console: "readonly"
             }
         },
