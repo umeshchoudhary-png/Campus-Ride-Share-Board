@@ -6,7 +6,47 @@
     <title>Campus Ride Share Board</title>
 </head>
 <body>
-    <h1>Campus Ride Share Board</h1>
-    <p>Find and share rides with students on campus.</p>
+    <header>
+        <h1>Campus Ride Share Board</h1>
+        <p>Find and share rides with students on campus.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Available Rides</h2>
+
+            <div id="ride-list">
+                <p>No rides available yet.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Share a Ride</h2>
+
+            <form id="ride-form">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" required>
+
+                <br><br>
+
+                <label for="from">From:</label>
+                <input type="text" id="from" required>
+
+                <br><br>
+
+                <label for="to">To:</label>
+                <input type="text" id="to" required>
+
+                <br><br>
+
+                <label for="time">Time:</label>
+                <input type="time" id="time" required>
+
+                <br><br>
+
+                <button type="submit">Post Ride</button>
+            </form>
+        </section>
+    </main>
 </body>
 </html>
