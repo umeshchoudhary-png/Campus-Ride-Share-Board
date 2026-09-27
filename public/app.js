@@ -15,6 +15,7 @@ form.addEventListener("submit", (event) => {
         <h3>${from} → ${to}</h3>
         <p><strong>Student:</strong> ${name}</p>
         <p><strong>Time:</strong> ${time}</p>
+        <button class="delete-button">Delete Ride</button>
         <hr>
     `;
 
@@ -25,6 +26,14 @@ form.addEventListener("submit", (event) => {
     }
 
     rideList.appendChild(ride);
+
+    ride.querySelector(".delete-button").addEventListener("click", () => {
+        ride.remove();
+
+        if (rideList.children.length === 0) {
+            rideList.innerHTML = "<p>No rides available yet.</p>";
+        }
+    });
 
     form.reset();
 });
