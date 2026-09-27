@@ -9,7 +9,8 @@ module.exports = [
                 module: "readonly",
                 __dirname: "readonly",
                 console: "readonly",
-                document: "readonly"
+                document: "readonly",
+                localStorage: "readonly"
             }
         },
         rules: {
