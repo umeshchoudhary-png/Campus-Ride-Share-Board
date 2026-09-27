@@ -1,17 +1,22 @@
 const form = document.getElementById("ride-form");
 const rideList = document.getElementById("ride-list");
+const searchInput = document.getElementById("search");
 
 let rides = JSON.parse(localStorage.getItem("rides")) || [];
 
-function displayRides() {
+function displayRides(searchText = "") {
     rideList.innerHTML = "";
 
-    if (rides.length === 0) {
+    const filteredRides = rides.filter((ride) =>
+        ride.to.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    if (filteredRides.length === 0) {
         rideList.innerHTML = "<p>No rides available yet.</p>";
         return;
     }
 
-    rides.forEach((ride, index) => {
+    filteredRides.forEach((ride) => {
         const rideElement = document.createElement("div");
 
         rideElement.innerHTML = `
@@ -22,11 +27,16 @@ function displayRides() {
             <hr>
         `;
 
-        rideElement.querySelector(".delete-button").addEventListener("click", () => {
-            rides.splice(index, 1);
-            localStorage.setItem("rides", JSON.stringify(rides));
-            displayRides();
-        });
+        rideElement
+            .querySelector(".delete-button")
+            .addEventListener("click", () => {
+                const index = rides.indexOf(ride);
+
+                rides.splice(index, 1);
+                localStorage.setItem("rides", JSON.stringify(rides));
+
+                displayRides(searchInput.value);
+            });
 
         rideList.appendChild(rideElement);
     });
@@ -43,10 +53,16 @@ form.addEventListener("submit", (event) => {
     };
 
     rides.push(ride);
+
     localStorage.setItem("rides", JSON.stringify(rides));
 
-    displayRides();
+    displayRides(searchInput.value);
+
     form.reset();
+});
+
+searchInput.addEventListener("input", () => {
+    displayRides(searchInput.value);
 });
 
 displayRides();
