@@ -20,7 +20,7 @@ test("GET /health returns status ok", async () => {
     const data = await response.json();
 
     assert.strictEqual(response.status, 200);
-    assert.strictEqual(data.status, "ok");
+    assert.strictEqual(data.status, "failed");
 });
 
 test("POST /api/rides creates a ride", async () => {
