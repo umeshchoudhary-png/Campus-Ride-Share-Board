@@ -78,6 +78,20 @@ async function deleteRide(id) {
     await loadRides();
 }
 
+async function loadCommitInfo() {
+    const response = await fetch("/health");
+
+    if (!response.ok) {
+        return;
+    }
+
+    const data = await response.json();
+
+    const footer = document.createElement("footer");
+    footer.textContent = `Running commit: ${data.commit}`;
+    document.body.appendChild(footer);
+}
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -107,4 +121,8 @@ clearSearchButton.addEventListener("click", () => {
 
 loadRides().catch((error) => {
     rideList.innerHTML = `<p>${error.message}</p>`;
+});
+
+loadCommitInfo().catch(() => {
+    // Commit information is optional during local development.
 });
