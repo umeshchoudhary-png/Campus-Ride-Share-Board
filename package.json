@@ -1,20 +1,26 @@
 {
   "name": "campus-ride-share-board",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Campus Ride Share Board for MIT-WPU students",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test": "node --test",
+    "lint": "eslint ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "campus",
+    "ride-share",
+    "express",
+    "devops"
+  ],
+  "author": "Umesh Choudhary",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.11.0"
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1"
   }
 }

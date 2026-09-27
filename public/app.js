@@ -3,7 +3,18 @@ const rideList = document.getElementById("ride-list");
 const searchInput = document.getElementById("search");
 const clearSearchButton = document.getElementById("clear-search");
 
-let rides = JSON.parse(localStorage.getItem("rides")) || [];
+let rides = [];
+
+async function loadRides() {
+    const response = await fetch("/api/rides");
+
+    if (!response.ok) {
+        throw new Error("Failed to load rides");
+    }
+
+    rides = await response.json();
+    displayRides(searchInput.value);
+}
 
 function displayRides(searchText = "") {
     rideList.innerHTML = "";
@@ -30,36 +41,59 @@ function displayRides(searchText = "") {
 
         rideElement
             .querySelector(".delete-button")
-            .addEventListener("click", () => {
-                const index = rides.indexOf(ride);
-
-                rides.splice(index, 1);
-                localStorage.setItem("rides", JSON.stringify(rides));
-
-                displayRides(searchInput.value);
+            .addEventListener("click", async () => {
+                await deleteRide(ride.id);
             });
 
         rideList.appendChild(rideElement);
     });
 }
 
-form.addEventListener("submit", (event) => {
+async function addRide(ride) {
+    const response = await fetch("/api/rides", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(ride)
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to add ride");
+    }
+
+    await loadRides();
+}
+
+async function deleteRide(id) {
+    const response = await fetch(`/api/rides/${id}`, {
+        method: "DELETE"
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to delete ride");
+    }
+
+    await loadRides();
+}
+
+form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const ride = {
-        name: document.getElementById("name").value,
-        from: document.getElementById("from").value,
-        to: document.getElementById("to").value,
+        name: document.getElementById("name").value.trim(),
+        from: document.getElementById("from").value.trim(),
+        to: document.getElementById("to").value.trim(),
         time: document.getElementById("time").value
     };
 
-    rides.push(ride);
-
-    localStorage.setItem("rides", JSON.stringify(rides));
-
-    displayRides(searchInput.value);
-
-    form.reset();
+    try {
+        await addRide(ride);
+        form.reset();
+    } catch (error) {
+        alert(error.message);
+    }
 });
 
 searchInput.addEventListener("input", () => {
@@ -71,4 +105,6 @@ clearSearchButton.addEventListener("click", () => {
     displayRides();
 });
 
-displayRides();
+loadRides().catch((error) => {
+    rideList.innerHTML = `<p>${error.message}</p>`;
+});
